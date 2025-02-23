@@ -23,26 +23,26 @@ public class EmailLog {
   private Long id;
 
   @Column(length = 254, nullable = false)
-  private String recipient_email;
+  private String recipientEmail;
 
   @Enumerated(EnumType.STRING)
   private EmailStatus status;
 
   @Column(nullable = false)
-  private int attempt_count = 0;  // 최대 5번
+  private int attemptCount = 0;  // 최대 5번
 
   @Column(updatable = false)
-  private LocalDateTime created_date_time;
+  private LocalDateTime createdDateTime;
 
-  private LocalDateTime updated_date_time;
+  private LocalDateTime updatedDateTime;
 
   @PrePersist
   public void prePersist() {
-    this.created_date_time = LocalDateTime.now();
+    this.createdDateTime = LocalDateTime.now();
   }
 
   @PreUpdate
   public void preUpdate() {
-    this.updated_date_time = LocalDateTime.now();
+    this.updatedDateTime = LocalDateTime.now();
   }
 }

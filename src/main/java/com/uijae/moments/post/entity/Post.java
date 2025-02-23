@@ -35,9 +35,9 @@ public class Post {
   private String content;
 
   @Column(updatable = false)
-  private LocalDateTime created_date_time;
+  private LocalDateTime createdDateTime;
 
-  private LocalDateTime updated_date_time;
+  private LocalDateTime updatedDateTime;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -53,11 +53,11 @@ public class Post {
 
   @PrePersist
   public void prePersist() {
-    this.created_date_time = LocalDateTime.now();
+    this.createdDateTime = LocalDateTime.now();
   }
 
   @PreUpdate
   public void preUpdate() {
-    this.updated_date_time = LocalDateTime.now();
+    this.updatedDateTime = LocalDateTime.now();
   }
 }

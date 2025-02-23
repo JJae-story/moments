@@ -21,10 +21,10 @@ public class VoteOption {
   private Long id;
 
   @Column(length = 50, nullable = false)
-  private String option_title;
+  private String optionTitle;
 
   @Column(nullable = false)
-  private int vote_count = 0;
+  private int voteCount = 0;
 
   @ManyToOne
   @JoinColumn(name = "vote_id", nullable = false)

@@ -29,12 +29,12 @@ public class Schedule {
   private String title;
 
   @Column(nullable = false)
-  private LocalDate schedule_date;
+  private LocalDate scheduleDate;
 
   @Column(updatable = false)
-  private LocalDateTime created_date_time;
+  private LocalDateTime createdDateTime;
 
-  private LocalDateTime updated_date_time;
+  private LocalDateTime updatedDateTime;
 
   @ManyToOne
   @JoinColumn(name = "group_id", nullable = false)
@@ -46,11 +46,11 @@ public class Schedule {
 
   @PrePersist
   public void prePersist() {
-    this.created_date_time = LocalDateTime.now();
+    this.createdDateTime = LocalDateTime.now();
   }
 
   @PreUpdate
   public void preUpdate() {
-    this.updated_date_time = LocalDateTime.now();
+    this.updatedDateTime = LocalDateTime.now();
   }
 }

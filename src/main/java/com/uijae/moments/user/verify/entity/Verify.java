@@ -31,10 +31,10 @@ public class Verify {
   private TokenStatus status;
 
   @Column(updatable = false)
-  private LocalDateTime created_date_time;
+  private LocalDateTime createdDateTime;
 
   @Column(nullable = false)
-  private LocalDateTime expiry_date_time;
+  private LocalDateTime expiryDateTime;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -42,6 +42,6 @@ public class Verify {
 
   @PrePersist
   public void prePersist() {
-    this.created_date_time = LocalDateTime.now();
+    this.createdDateTime = LocalDateTime.now();
   }
 }

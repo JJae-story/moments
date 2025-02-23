@@ -23,7 +23,7 @@ public class Holiday {
   private Long id;
 
   @Column(nullable = false)
-  private LocalDate holiday_date;
+  private LocalDate holidayDate;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)

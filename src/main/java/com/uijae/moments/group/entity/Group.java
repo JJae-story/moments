@@ -31,10 +31,10 @@ public class Group {
   private String code;
 
   @Column(updatable = false)
-  private LocalDateTime created_date_time;
+  private LocalDateTime createdDateTime;
 
   @PrePersist
   public void prePersist() {
-    this.created_date_time = LocalDateTime.now();
+    this.createdDateTime = LocalDateTime.now();
   }
 }

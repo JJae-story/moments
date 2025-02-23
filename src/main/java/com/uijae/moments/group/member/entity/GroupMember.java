@@ -29,7 +29,7 @@ public class GroupMember {
   private GroupMemberRole role;
 
   @Column(updatable = false)
-  private LocalDate joined_date;
+  private LocalDate joinedDate;
 
   @ManyToOne
   @JoinColumn(name = "group_id", nullable = false)
@@ -41,6 +41,6 @@ public class GroupMember {
 
   @PrePersist
   public void prePersist() {
-    this.joined_date = LocalDate.now();
+    this.joinedDate = LocalDate.now();
   }
 }

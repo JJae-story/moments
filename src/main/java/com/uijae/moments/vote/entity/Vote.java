@@ -32,7 +32,7 @@ public class Vote {
   private VotingStatus status;
 
   @Column(nullable = false)
-  private LocalDateTime due_date_time;
+  private LocalDateTime dueDateTime;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)

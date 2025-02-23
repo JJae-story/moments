@@ -12,6 +12,7 @@ import jakarta.persistence.PrePersist;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Getter
@@ -34,7 +35,7 @@ public class Album {
   private String summary;
 
   @Column(updatable = false)
-  private LocalDate created_date;
+  private LocalDate createdDate;
 
   @Setter
   @ManyToOne
@@ -43,11 +44,11 @@ public class Album {
 
   @PrePersist
   public void prePersist() {
-    this.created_date = LocalDate.now();
+    this.createdDate = LocalDate.now();
   }
 
   public void setType(String type) {
-    if (type == null || type.isEmpty()) {
+    if (StringUtils.hasText(type)) {
       this.type = String.valueOf(LocalDate.now().getYear());
     } else {
       this.type = type;

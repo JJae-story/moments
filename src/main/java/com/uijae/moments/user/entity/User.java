@@ -21,7 +21,7 @@ public class User {
   private Long id;
 
   @Column(unique = true, length = 12, nullable = false)
-  private String user_id;
+  private String userId;
 
   @Column(length = 5, nullable = false)
   private String name;
@@ -32,20 +32,20 @@ public class User {
   @Column(length = 60, nullable = false)
   private String password;
 
-  private LocalDateTime verified_date_time;
+  private LocalDateTime verifiedDateTime;
 
   @Column(updatable = false)
-  private LocalDateTime created_date_time;
+  private LocalDateTime createdDateTime;
 
-  private LocalDateTime updated_date_time;
+  private LocalDateTime updatedDateTime;
 
   @PrePersist
   public void prePersist() {
-    this.created_date_time = LocalDateTime.now();
+    this.createdDateTime = LocalDateTime.now();
   }
 
   @PreUpdate
   public void preUpdate() {
-    this.updated_date_time = LocalDateTime.now();
+    this.updatedDateTime = LocalDateTime.now();
   }
 }
