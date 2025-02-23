@@ -9,11 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
 
+@Table(name = "album")
 @Entity
 @Getter
 public class Album {
@@ -24,14 +26,14 @@ public class Album {
   private Long id;
 
   @Setter
-  @Column(length = 100, nullable = false)
+  @Column(length = 50, nullable = false)
   private String title;
 
   @Column(length = 10)
   private String type;
 
   @Setter
-  @Column(nullable = false)
+  @Column(length = 100, nullable = false)
   private String summary;
 
   @Column(updatable = false)
