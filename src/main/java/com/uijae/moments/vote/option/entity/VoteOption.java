@@ -26,7 +26,7 @@ public class VoteOption {
   private String optionTitle;
 
   @Column(nullable = false)
-  private int voteOptionTitle = 0;
+  private int voteOptionCount = 0;
 
   @ManyToOne
   @JoinColumn(name = "vote_id", nullable = false)
