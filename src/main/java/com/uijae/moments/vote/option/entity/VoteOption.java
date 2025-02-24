@@ -8,10 +8,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "vote_option")
 @Getter
 @Setter
 public class VoteOption {
@@ -24,7 +26,7 @@ public class VoteOption {
   private String optionTitle;
 
   @Column(nullable = false)
-  private int voteCount = 0;
+  private int voteOptionCount = 0;
 
   @ManyToOne
   @JoinColumn(name = "vote_id", nullable = false)
