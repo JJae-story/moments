@@ -1,23 +1,26 @@
 package com.uijae.moments.album.entity;
 
-import com.uijae.moments.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
 
 @Table(name = "album")
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Album {
 
   @Setter
@@ -39,10 +42,11 @@ public class Album {
   @Column(updatable = false)
   private LocalDate createdDate;
 
-  @Setter
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
+  // S3 테스트를 위해 잠시 제외 (DB 포함)
+//  @Setter
+//  @ManyToOne
+//  @JoinColumn(name = "user_id", nullable = false)
+//  private User user;
 
   @PrePersist
   public void prePersist() {
