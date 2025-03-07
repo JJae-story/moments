@@ -58,7 +58,7 @@
 
 ---
 ### ERD
-![Image](https://github.com/user-attachments/assets/77fb8143-f87b-425b-9e4a-be0fc4e65b68)
+![Image](https://github.com/user-attachments/assets/2360616d-a255-4c93-8066-793483b47ac7)
 
 ### Trouble Shooting
 ---
