@@ -104,7 +104,6 @@ class AlbumServiceTest {
         .build();
 
     when(albumRepository.findById(albumId)).thenReturn(Optional.of(album));
-    when(albumRepository.save(any(Album.class))).thenReturn(album);
 
     // when
     AlbumResponseDto response = albumService.updateAlbum(albumId, updateRequest);
@@ -114,7 +113,6 @@ class AlbumServiceTest {
     assertEquals("일상", response.getType());
     assertEquals("일상 기록", response.getSummary());
     verify(albumRepository, times(1)).findById(albumId);
-    verify(albumRepository, times(1)).save(any(Album.class));
   }
 
   @Test
@@ -154,14 +152,14 @@ class AlbumServiceTest {
         .build();
 
     when(albumRepository.findById(albumId)).thenReturn(Optional.of(album));
-    doNothing().when(albumRepository).deleteById(albumId);
+    doNothing().when(albumRepository).delete(album);
 
     // when
     albumService.deleteAlbum(albumId, userId, groupId);
 
     // then
     verify(albumRepository, times(1)).findById(albumId);
-    verify(albumRepository, times(1)).deleteById(albumId);
+    verify(albumRepository, times(1)).delete(album);
   }
 
   @Test
