@@ -48,13 +48,18 @@ public class Album {
 //  @JoinColumn(name = "user_id", nullable = false)
 //  private User user;
 
+//  @Setter
+//  @ManyToOne
+//  @JoinColumn(name = "group_id", nullable = false)
+//  private Group group;
+
   @PrePersist
   public void prePersist() {
     this.createdDate = LocalDate.now();
   }
 
   public void setType(String type) {
-    if (StringUtils.hasText(type)) {
+    if (!StringUtils.hasText(type)) {
       this.type = String.valueOf(LocalDate.now().getYear());
     } else {
       this.type = type;
