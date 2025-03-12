@@ -1,15 +1,15 @@
 package com.uijae.moments.album.s3.service;
 
+import static com.uijae.moments.common.exception.ErrorCode.ALBUM_NOT_FOUND;
+import static com.uijae.moments.common.exception.ErrorCode.FILE_DELETE_FAILED;
+import static com.uijae.moments.common.exception.ErrorCode.FILE_UPLOAD_FAILED;
+import static com.uijae.moments.common.exception.ErrorCode.IMAGE_NOT_FOUND;
+
 import com.uijae.moments.album.entity.Album;
 import com.uijae.moments.album.image.entity.AlbumImage;
 import com.uijae.moments.album.image.repository.AlbumImageRepository;
 import com.uijae.moments.album.repository.AlbumRepository;
 import com.uijae.moments.common.exception.CustomException;
-import static com.uijae.moments.common.exception.ErrorCode.ALBUM_NOT_FOUND;
-import static com.uijae.moments.common.exception.ErrorCode.FILE_DELETE_FAILED;
-import static com.uijae.moments.common.exception.ErrorCode.FILE_IS_EMPTY;
-import static com.uijae.moments.common.exception.ErrorCode.FILE_UPLOAD_FAILED;
-import static com.uijae.moments.common.exception.ErrorCode.IMAGE_NOT_FOUND;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +47,6 @@ public class AwsS3Service {
     List<Long> imageIds = new ArrayList<>();
 
     for (MultipartFile file : files) {
-      if (file.isEmpty()) {
-        throw new CustomException(FILE_IS_EMPTY);
-      }
 
       String filename = file.getOriginalFilename();
       String s3Key = UUID.randomUUID() + "_" + filename;
