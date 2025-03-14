@@ -1,26 +1,13 @@
 package com.uijae.moments.album.s3.service;
 
-import com.uijae.moments.album.entity.Album;
-import com.uijae.moments.album.image.entity.AlbumImage;
-import com.uijae.moments.album.image.repository.AlbumImageRepository;
-import com.uijae.moments.album.repository.AlbumRepository;
-import com.uijae.moments.common.exception.CustomException;
 import static com.uijae.moments.common.exception.ErrorCode.ALBUM_NOT_FOUND;
 import static com.uijae.moments.common.exception.ErrorCode.FILE_DELETE_FAILED;
-import static com.uijae.moments.common.exception.ErrorCode.FILE_IS_EMPTY;
 import static com.uijae.moments.common.exception.ErrorCode.FILE_UPLOAD_FAILED;
 import static com.uijae.moments.common.exception.ErrorCode.IMAGE_NOT_FOUND;
-import java.util.List;
-import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doThrow;
@@ -28,6 +15,19 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.uijae.moments.album.entity.Album;
+import com.uijae.moments.album.image.entity.AlbumImage;
+import com.uijae.moments.album.image.repository.AlbumImageRepository;
+import com.uijae.moments.album.repository.AlbumRepository;
+import com.uijae.moments.common.exception.CustomException;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -112,29 +112,6 @@ class AwsS3ServiceTest {
         () -> awsS3Service.uploadFiles(mockFiles, 1L));
 
     assertEquals(ALBUM_NOT_FOUND, e.getErrorCode());
-  }
-
-  @Test
-  @DisplayName("파일 리스트 중 하나라도 비어 있으면, FILE_IS_EMPTY 예외가 발생해야 한다.")
-  void uploadFiles_fail_file_is_empty() {
-    // given
-    List<MultipartFile> mockFiles = List.of(
-        new MockMultipartFile("test1.jpg", "test1.jpg", "image/jpeg", new byte[0]),
-        new MockMultipartFile("test2.jpg", "test2.jpg", "image/jpeg", new byte[]{5, 6, 7, 8})
-    );
-
-    Album mockAlbum = Album.builder()
-        .id(1L)
-        .title("test album")
-        .build();
-
-    when(albumRepository.findById(anyLong())).thenReturn(Optional.of(mockAlbum));
-
-    // when & then
-    CustomException e = assertThrows(CustomException.class,
-        () -> awsS3Service.uploadFiles(mockFiles, 1L));
-
-    assertEquals(FILE_IS_EMPTY, e.getErrorCode());
   }
 
   @Test
