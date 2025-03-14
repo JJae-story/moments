@@ -5,6 +5,8 @@ import com.uijae.moments.post.dto.PostResponseDto;
 import com.uijae.moments.post.dto.PostUpdateRequestDto;
 import com.uijae.moments.post.service.PostService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,37 +23,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping
 @RequiredArgsConstructor
 public class PostController {
 
   private final PostService postService;
 
   // 게시글 생성
-  @PostMapping("/user/{userId}/group/{groupId}/album/{albumId}")
+  @PostMapping("/user/{userId}")
   public ResponseEntity<PostResponseDto> createPost(
       @PathVariable Long userId,
-      @PathVariable Long groupId,
-      @PathVariable Long albumId,
       @Valid @RequestBody PostCreateRequestDto postCreateRequestDto) {
 
-    PostResponseDto response = postService.createPost(userId, groupId, albumId,
-        postCreateRequestDto);
+    PostResponseDto response = postService.createPost(userId, postCreateRequestDto);
 
     return ResponseEntity.ok(response);
   }
 
   // 게시글 수정
-  @PutMapping("/user/{userId}/group/{groupId}/post/{postId}/album/{albumId}")
+  @PutMapping("/post/{postId}")
   public ResponseEntity<PostResponseDto> updatePost(
-      @PathVariable Long userId,
-      @PathVariable Long groupId,
       @PathVariable Long postId,
-      @PathVariable Long albumId,
       @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
 
-    PostResponseDto response = postService.updatePost(userId, groupId, postId, albumId,
-        postUpdateRequestDto);
+    PostResponseDto response = postService.updatePost(postId, postUpdateRequestDto);
 
     return ResponseEntity.ok(response);
   }
@@ -61,8 +56,8 @@ public class PostController {
   public ResponseEntity<List<PostResponseDto>> getPostsByDateRange(
       @PathVariable Long userId,
       @PathVariable Long groupId,
-      @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-      @RequestParam("weeks") int weeks) {
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+      @RequestParam @Min(1) @Max(2) int weeks) {
 
     List<PostResponseDto> response = postService.getPostsByDateRange(userId, groupId, startDate,
         weeks);

@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Builder
 public class PostCreateRequestDto {
+  private Long groupId;
+
+  private Long albumId;
 
   @NotBlank(message = "제목은 필수 입력 값입니다.")
   private String title;

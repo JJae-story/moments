@@ -5,7 +5,6 @@ import static com.uijae.moments.common.exception.ErrorCode.FILE_COUNT_EXCEEDED;
 import static com.uijae.moments.common.exception.ErrorCode.FILE_IS_EMPTY;
 import static com.uijae.moments.common.exception.ErrorCode.FILE_SIZE_EXCEEDED;
 import static com.uijae.moments.common.exception.ErrorCode.INVALID_DATE_RANGE;
-import static com.uijae.moments.common.exception.ErrorCode.INVALID_WEEK_SELECTION;
 import static com.uijae.moments.common.exception.ErrorCode.POST_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -77,6 +76,8 @@ class PostServiceTest {
     );
 
     PostCreateRequestDto request = PostCreateRequestDto.builder()
+        .groupId(groupId)
+        .albumId(albumId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -96,7 +97,7 @@ class PostServiceTest {
     when(postRepository.save(any(Post.class))).thenReturn(post);
 
     // when
-    PostResponseDto response = postService.createPost(userId, groupId, albumId, request);
+    PostResponseDto response = postService.createPost(userId, request);
 
     // then
     assertEquals(request.getTitle(), response.getTitle());
@@ -120,6 +121,8 @@ class PostServiceTest {
     );
 
     PostCreateRequestDto request = PostCreateRequestDto.builder()
+        .groupId(groupId)
+        .albumId(albumId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -129,7 +132,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.createPost(userId, groupId, albumId, request));
+        () -> postService.createPost(userId, request));
 
     assertEquals(ALBUM_NOT_FOUND, e.getErrorCode());
   }
@@ -157,6 +160,8 @@ class PostServiceTest {
     );
 
     PostCreateRequestDto request = PostCreateRequestDto.builder()
+        .groupId(groupId)
+        .albumId(albumId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -166,7 +171,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.createPost(userId, groupId, albumId, request));
+        () -> postService.createPost(userId, request));
 
     assertEquals(FILE_COUNT_EXCEEDED, e.getErrorCode());
   }
@@ -186,6 +191,8 @@ class PostServiceTest {
     );
 
     PostCreateRequestDto request = PostCreateRequestDto.builder()
+        .groupId(groupId)
+        .albumId(albumId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -195,7 +202,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.createPost(userId, groupId, albumId, request));
+        () -> postService.createPost(userId, request));
 
     assertEquals(FILE_IS_EMPTY, e.getErrorCode());
   }
@@ -215,6 +222,8 @@ class PostServiceTest {
     );
 
     PostCreateRequestDto request = PostCreateRequestDto.builder()
+        .groupId(groupId)
+        .albumId(albumId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -224,7 +233,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.createPost(userId, groupId, albumId, request));
+        () -> postService.createPost(userId, request));
 
     assertEquals(FILE_SIZE_EXCEEDED, e.getErrorCode());
   }
@@ -245,6 +254,9 @@ class PostServiceTest {
     );
 
     PostUpdateRequestDto request = PostUpdateRequestDto.builder()
+        .albumId(albumId)
+        .groupId(groupId)
+        .userId(userId)
         .title("Updated Title")
         .files(files)
         .deleteImageIds(deleteImageIds)
@@ -282,7 +294,7 @@ class PostServiceTest {
     when(albumImageRepository.findAllById(List.of(3L)))
         .thenReturn(List.of(new AlbumImage(3L, "https://s3-bucket/file3.jpg", album)));
 
-    PostResponseDto response = postService.updatePost(userId, groupId, postId, albumId, request);
+    PostResponseDto response = postService.updatePost(userId, request);
 
     assertEquals("Updated Title", response.getTitle());
     assertEquals(2, post.getPostImages().size());
@@ -307,6 +319,9 @@ class PostServiceTest {
     );
 
     PostUpdateRequestDto request = PostUpdateRequestDto.builder()
+        .albumId(albumId)
+        .groupId(groupId)
+        .userId(userId)
         .title("Updated Title")
         .files(files)
         .deleteImageIds(deleteImageIds)
@@ -315,7 +330,7 @@ class PostServiceTest {
     when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.updatePost(userId, groupId, postId, albumId, request));
+        () -> postService.updatePost(userId, request));
 
     assertEquals(POST_NOT_FOUND, e.getErrorCode());
   }
@@ -336,6 +351,9 @@ class PostServiceTest {
     );
 
     PostUpdateRequestDto request = PostUpdateRequestDto.builder()
+        .albumId(albumId)
+        .groupId(groupId)
+        .userId(userId)
         .title("Updated Title")
         .files(files)
         .deleteImageIds(deleteImageIds)
@@ -345,7 +363,7 @@ class PostServiceTest {
     when(albumRepository.findById(albumId)).thenReturn(Optional.empty());
 
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.updatePost(userId, groupId, postId, albumId, request));
+        () -> postService.updatePost(userId, request));
 
     assertEquals(ALBUM_NOT_FOUND, e.getErrorCode());
   }
@@ -368,6 +386,9 @@ class PostServiceTest {
     );
 
     PostUpdateRequestDto request = PostUpdateRequestDto.builder()
+        .albumId(albumId)
+        .groupId(groupId)
+        .userId(userId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -389,7 +410,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.updatePost(userId, groupId, postId, albumId, request));
+        () -> postService.updatePost(userId, request));
 
     assertEquals(FILE_COUNT_EXCEEDED, e.getErrorCode());
   }
@@ -410,6 +431,9 @@ class PostServiceTest {
     );
 
     PostUpdateRequestDto request = PostUpdateRequestDto.builder()
+        .albumId(albumId)
+        .groupId(groupId)
+        .userId(userId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -420,7 +444,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.updatePost(userId, groupId, postId, albumId, request));
+        () -> postService.updatePost(userId, request));
 
     assertEquals(FILE_IS_EMPTY, e.getErrorCode());
   }
@@ -441,6 +465,9 @@ class PostServiceTest {
     );
 
     PostUpdateRequestDto request = PostUpdateRequestDto.builder()
+        .userId(userId)
+        .groupId(groupId)
+        .albumId(albumId)
         .title("Test Title")
         .content("Test Content")
         .files(mockFiles)
@@ -451,7 +478,7 @@ class PostServiceTest {
 
     // when & then
     CustomException e = assertThrows(CustomException.class,
-        () -> postService.updatePost(userId, groupId, postId, albumId, request));
+        () -> postService.updatePost(userId, request));
 
     assertEquals(FILE_SIZE_EXCEEDED, e.getErrorCode());
   }
@@ -512,22 +539,6 @@ class PostServiceTest {
         () -> postService.getPostsByDateRange(userId, groupId, startDate, weeks));
 
     assertEquals(INVALID_DATE_RANGE, e.getErrorCode());
-  }
-
-  @Test
-  @DisplayName("1 or 2주가 아닐 시에, INVALID_WEEK_SELECTION 예외가 발생해야 한다.")
-  void getPostsByDateRange_fail_invalid_week_selection() {
-    // given
-    Long userId = 1L;
-    Long groupId = 1L;
-    LocalDate startDate = LocalDate.now().minusDays(10);
-    int weeks = 3;
-
-    // when & then
-    CustomException e = assertThrows(CustomException.class,
-        () -> postService.getPostsByDateRange(userId, groupId, startDate, weeks));
-
-    assertEquals(INVALID_WEEK_SELECTION, e.getErrorCode());
   }
 
   @Test

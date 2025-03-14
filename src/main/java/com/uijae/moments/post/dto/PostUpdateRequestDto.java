@@ -11,6 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public class PostUpdateRequestDto {
 
+  private Long userId;
+  private Long groupId;
+  private Long albumId;
+
   private String title;
   private String content;
   private List<MultipartFile> files;
